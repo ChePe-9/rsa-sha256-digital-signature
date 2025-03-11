@@ -26,3 +26,27 @@ def verify_signature(public_key, message, signature):
         return True
     except:
         return False
+    
+# Шифрование данных с использованием публичного ключа
+def encrypt_message(public_key, message):
+    ciphertext = public_key.encrypt(
+        message,
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+    return ciphertext
+
+# Дешифрование данных с использованием приватного ключа
+def decrypt_message(private_key, ciphertext):
+    plaintext = private_key.decrypt(
+        ciphertext,
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+    return plaintext
